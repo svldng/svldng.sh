@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>svldng.sh — Sven Löding</title>
+<meta name="description" content="Sven Löding — security operations, GRC, hands-on labs.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230d1117'/><text x='16' y='23' font-family='monospace' font-size='20' font-weight='700' fill='%237fd1aa' text-anchor='middle'>~</text></svg>">
+<style>
+  :root{
+    --bg:#FBFBF9; --panel:#F2F3EF; --fg:#16191C; --dim:#5C6660;
+    --line:#D9DDD6; --acc:#2F7D5F; --acc-dim:#5E9E82;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0D1117; --panel:#151B22; --fg:#DCE3E0; --dim:#7D8A85;
+      --line:#242C33; --acc:#7FD1AA; --acc-dim:#4E8B71;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0D1117; --panel:#151B22; --fg:#DCE3E0; --dim:#7D8A85;
+    --line:#242C33; --acc:#7FD1AA; --acc-dim:#4E8B71;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:var(--mono); font-size:15px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    display:flex; flex-direction:column; min-height:100vh;
+  }
+  main{width:100%; max-width:620px; margin:0 auto; padding:clamp(40px,9vh,96px) 22px 0; flex:1 0 auto}
+
+  .host{
+    margin:0 0 clamp(28px,6vh,48px); font-size:12.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--acc-dim);
+  }
+  .host b{color:var(--acc); font-weight:600}
+
+  h1{
+    margin:0; font-size:clamp(1.55rem,5.6vw,2.05rem); font-weight:700;
+    letter-spacing:-.015em; line-height:1.2;
+  }
+  .tagline{
+    margin:10px 0 0; color:var(--dim); font-size:13.5px; letter-spacing:.01em;
+  }
+  .tagline span{color:var(--line); padding:0 2px}
+
+  .about{margin:clamp(26px,5vh,38px) 0 0; max-width:56ch}
+  .about p{margin:0 0 .9em}
+  .about p:last-child{margin-bottom:0}
+  .about em{color:var(--dim); font-style:normal}
+
+  .links{
+    margin:clamp(30px,6vh,44px) 0 0; padding:0;
+    border-top:1px solid var(--line);
+  }
+  .row{
+    display:grid; grid-template-columns:9.5rem 1fr; gap:4px 14px;
+    padding:13px 0; border-bottom:1px solid var(--line); align-items:baseline;
+  }
+  .row dt{
+    color:var(--dim); font-size:12.5px; letter-spacing:.1em; text-transform:uppercase;
+  }
+  .row dd{margin:0; overflow-wrap:anywhere}
+  .row dd a{
+    color:var(--fg); text-decoration:none;
+    border-bottom:1px solid var(--acc-dim); padding-bottom:1px;
+  }
+  .row dd a:hover,.row dd a:focus-visible{color:var(--acc); border-bottom-color:var(--acc)}
+  .row dd .note{display:block; color:var(--dim); font-size:12.5px; margin-top:2px}
+  .fp{font-size:12.5px; color:var(--dim); letter-spacing:.02em}
+
+  @media (max-width:520px){
+    .row{grid-template-columns:1fr; gap:2px}
+  }
+
+  footer{
+    width:100%; max-width:620px; margin:0 auto;
+    padding:clamp(40px,8vh,72px) 22px 30px;
+    color:var(--dim); font-size:12.5px;
+    display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  }
+  footer button{
+    font:inherit; color:var(--dim); background:none; border:0; padding:0;
+    cursor:pointer; letter-spacing:.06em;
+  }
+  footer button:hover,footer button:focus-visible{color:var(--acc)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--acc); outline-offset:3px; border-radius:2px}
+</style>
+</head>
+<body>
+
+<main>
+  <p class="host">~ <b>svldng.sh</b></p>
+
+  <h1>Sven Löding</h1>
+  <p class="tagline">security operations <span>·</span> GRC <span>·</span> hands-on labs</p>
+
+  <div class="about">
+    <p>I came to security from outside the field, which turns out to be a reasonable way to arrive — nothing is obvious yet, so nothing gets skipped.</p>
+    <p>Most of my time goes into the defensive side — governance, risk and compliance — plus enough offensive practice to understand what the defence is actually for.</p>
+    <p><em>All of this is a private interest, pursued for its own sake. Nothing here is on offer.</em></p>
+  </div>
+
+  <dl class="links">
+    <div class="row">
+      <dt>labs</dt>
+      <dd>
+        <a href="https://tryhackme.com/p/svldng.sh" rel="me noopener">tryhackme.com/p/svldng.sh</a>
+        <span class="note">rank, streak and badges are kept current there</span>
+      </dd>
+    </div>
+    <div class="row">
+      <dt>credentials</dt>
+      <dd>
+        <a href="https://www.credly.com/users/svldng.sh" rel="me noopener">credly.com/users/svldng.sh</a>
+        <span class="note">verifiable badges — issued, not claimed</span>
+      </dd>
+    </div>
+    <div class="row">
+      <dt>mail</dt>
+      <dd><a href="mailto:root@svldng.sh">root@svldng.sh</a></dd>
+    </div>
+  </dl>
+</main>
+
+<footer>
+  <span>no cookies, no tracking, no javascript required</span>
+  <button type="button" id="t" aria-label="Toggle colour scheme">◐ theme</button>
+</footer>
+
+<script>
+  (function(){
+    var b=document.getElementById('t'), r=document.documentElement;
+    b.addEventListener('click',function(){
+      var dark = r.getAttribute('data-theme')==='dark'
+        || (!r.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      r.setAttribute('data-theme', dark ? 'light' : 'dark');
+    });
+  })();
+</script>
+
+</body>
+</html>
