@@ -34,11 +34,13 @@
   }
   main{width:100%; max-width:620px; margin:0 auto; padding:clamp(40px,9vh,96px) 22px 0; flex:1 0 auto}
 
-  .host{
-    margin:0 0 clamp(28px,6vh,48px); font-size:12.5px; letter-spacing:.14em;
-    text-transform:uppercase; color:var(--acc-dim);
+  /* ASCII-Wortmarke: 84 Spalten breit, Schriftgroesse skaliert mit dem Viewport,
+     damit die Zeilen nie umbrechen. line-height 1 haelt die Zeichenzellen quadratisch. */
+  .wordmark{
+    margin:0 0 clamp(26px,5vh,42px);
+    font-family:inherit; font-size:clamp(4px,1.4vw,11px); line-height:1;
+    color:var(--acc-dim); white-space:pre; overflow:hidden;
   }
-  .host b{color:var(--acc); font-weight:600}
 
   h1{
     margin:0; font-size:clamp(1.55rem,5.6vw,2.05rem); font-weight:700;
@@ -95,7 +97,16 @@
 <body>
 
 <main>
-  <p class="host">~ <b>svldng.sh</b></p>
+  <pre class="wordmark" role="img" aria-label="svldng.sh">                     ##        ###                                        ##
+                     ##        ###                                        ##
+  ######  ###   ###  ##   ########   #######     ########        ######   #######
+ ###   #  ###   ###  ##  ###   ###   ###  ###   ###  ####       ###   #   ###  ###
+ ######    ###  ##   ##  ###   ###   ##    ##   ##    ###       ######    ###   ##
+    #####  #######   ##  ###   ###   ##    ##   ##    ###          #####  ##    ##
+      ###   #####    ##  ###   ###   ##    ##   ###  #### ##         ###  ##    ##
+  ######     ###     ##   ########   ##    ##    ######## ##     ######   ##    ##
+                                                     ###
+                                                 ######</pre>
 
   <h1>Sven Löding</h1>
   <p class="tagline">security operations <span>·</span> GRC <span>·</span> hands-on labs</p>
