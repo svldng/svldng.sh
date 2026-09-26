@@ -3,9 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-oQ2ASQiDVZYJO3M3w2nttrisra8DcWfKnc4bRGR6Sek='; script-src 'sha256-MiLM6R2PsJIejSt1UICCf/+U0mizF+WFpc3iLMd9F58='; img-src data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
 <title>svldng.sh — Sven Löding</title>
 <meta name="description" content="Sven Löding — security operations, GRC, hands-on labs.">
+<link rel="canonical" href="https://svldng.sh/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://svldng.sh/">
+<meta property="og:title" content="svldng.sh — Sven Löding">
+<meta property="og:description" content="Security operations, GRC, hands-on labs.">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FBFBF9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D1117" media="(prefers-color-scheme: dark)">
+<link rel="pgpkey" type="application/pgp-keys" href="/key.asc">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230d1117'/><text x='16' y='23' font-family='monospace' font-size='20' font-weight='700' fill='%237fd1aa' text-anchor='middle'>~</text></svg>">
 <style>
   :root{
@@ -22,15 +32,17 @@
   :root[data-theme="dark"]{
     --bg:#0D1117; --panel:#151B22; --fg:#DCE3E0; --dim:#7D8A85;
     --line:#242C33; --acc:#7FD1AA; --acc-dim:#4E8B71;
+    color-scheme:dark;
   }
+  :root[data-theme="light"]{color-scheme:light}
 
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
+  html{-webkit-text-size-adjust:100%; text-size-adjust:100%}
   body{
     margin:0; background:var(--bg); color:var(--fg);
     font-family:var(--mono); font-size:15px; line-height:1.65;
     -webkit-font-smoothing:antialiased;
-    display:flex; flex-direction:column; min-height:100vh;
+    display:flex; flex-direction:column; min-height:100vh; min-height:100dvh;
   }
   main{width:100%; max-width:620px; margin:0 auto; padding:clamp(40px,9vh,96px) 22px 0; flex:1 0 auto}
 
@@ -40,6 +52,7 @@
     margin:0 0 clamp(26px,5vh,42px);
     font-family:inherit; font-size:clamp(4px,1.4vw,11px); line-height:1;
     color:var(--acc-dim); white-space:pre; overflow:hidden;
+    user-select:none; -webkit-user-select:none;
   }
 
   h1{
@@ -74,7 +87,15 @@
   }
   .row dd a:hover,.row dd a:focus-visible{color:var(--acc); border-bottom-color:var(--acc)}
   .row dd .note{display:block; color:var(--dim); font-size:12.5px; margin-top:2px}
-  .fp{font-size:12.5px; color:var(--dim); letter-spacing:.02em}
+
+  /* Fingerprint: zwei Zeilen zu je fuenf Gruppen, wie in der gpg-Ausgabe */
+  .fp{
+    display:block; margin-top:8px; padding:8px 10px;
+    background:var(--panel); border-radius:3px;
+    font-family:inherit; font-size:12.5px; letter-spacing:.02em; line-height:1.55;
+    color:var(--fg); overflow-wrap:normal; word-spacing:.15em;
+  }
+  .fp span{display:block; white-space:nowrap}
 
   @media (max-width:520px){
     .row{grid-template-columns:1fr; gap:2px}
@@ -109,7 +130,7 @@
                                                  ######</pre>
 
   <h1>Sven Löding</h1>
-  <p class="tagline">security operations <span>·</span> GRC <span>·</span> hands-on labs</p>
+  <p class="tagline">security operations <span aria-hidden="true">·</span> GRC <span aria-hidden="true">·</span> hands-on labs</p>
 
   <div class="about">
     <p>I came to security from outside the field, which turns out to be a reasonable way to arrive — nothing is obvious yet, so nothing gets skipped.</p>
@@ -127,19 +148,31 @@
     </div>
     <div class="row">
       <dt>mail</dt>
-      <dd><a href="mailto:root@svldng.sh">root@svldng.sh</a></dd>
+      <dd>
+        <a href="mailto:root@svldng.sh">root@svldng.sh</a>
+        <span class="note">encrypted mail welcome — key below</span>
+      </dd>
+    </div>
+    <div class="row">
+      <dt>pgp</dt>
+      <dd>
+        <a href="/key.asc" type="application/pgp-keys">key.asc</a>
+        <span class="note">ed25519 · root@svldng.sh · created 2026-08-24</span>
+        <code class="fp" aria-label="Fingerprint"><span>721F 4006 FD44 4932 7DA5</span> <span>BDEA 8F18 6A2F D6DE 3AA0</span></code>
+      </dd>
     </div>
   </dl>
 </main>
 
 <footer>
   <span>no cookies, no tracking, no javascript required</span>
-  <button type="button" id="t" aria-label="Toggle colour scheme">◐ theme</button>
+  <button type="button" id="t" aria-label="Toggle colour scheme" hidden>◐ theme</button>
 </footer>
 
 <script>
   (function(){
     var b=document.getElementById('t'), r=document.documentElement;
+    b.hidden=false;
     b.addEventListener('click',function(){
       var dark = r.getAttribute('data-theme')==='dark'
         || (!r.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
