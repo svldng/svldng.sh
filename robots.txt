@@ -1,0 +1,5 @@
+# Die Startseite bleibt fuer Crawler lesbar, damit sie das noindex im HTML sehen.
+# Schluessel und .well-known werden nicht gecrawlt.
+User-agent: *
+Disallow: /key.asc
+Disallow: /.well-known/
