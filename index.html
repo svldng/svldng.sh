@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-oQ2ASQiDVZYJO3M3w2nttrisra8DcWfKnc4bRGR6Sek='; script-src 'sha256-MiLM6R2PsJIejSt1UICCf/+U0mizF+WFpc3iLMd9F58='; img-src data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; object-src 'none'; style-src 'sha256-pXJRpwBCUVmnB+B7r0NMxyEmDycipLohmce0u22mZJM='; script-src 'sha256-k4xs9UmN4SG81y3l14YeDMq6VTBhyA/VAfpQF3V8qeg='; img-src data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <title>svldng.sh — Sven Löding</title>
@@ -21,18 +21,18 @@
 <style>
   :root{
     --bg:#FBFBF9; --panel:#F2F3EF; --fg:#16191C; --dim:#5C6660;
-    --line:#D9DDD6; --acc:#2F7D5F; --acc-dim:#5E9E82;
+    --line:#D9DDD6; --acc:#287354; --acc-dim:#287354;
     --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#0D1117; --panel:#151B22; --fg:#DCE3E0; --dim:#7D8A85;
-      --line:#242C33; --acc:#7FD1AA; --acc-dim:#4E8B71;
+      --bg:#0D1117; --panel:#151B22; --fg:#DCE3E0; --dim:#9AA8A1;
+      --line:#242C33; --acc:#7FD1AA; --acc-dim:#7FD1AA;
     }
   }
   :root[data-theme="dark"]{
-    --bg:#0D1117; --panel:#151B22; --fg:#DCE3E0; --dim:#7D8A85;
-    --line:#242C33; --acc:#7FD1AA; --acc-dim:#4E8B71;
+    --bg:#0D1117; --panel:#151B22; --fg:#DCE3E0; --dim:#9AA8A1;
+    --line:#242C33; --acc:#7FD1AA; --acc-dim:#7FD1AA;
     color-scheme:dark;
   }
   :root[data-theme="light"]{color-scheme:light}
@@ -41,18 +41,17 @@
   html{-webkit-text-size-adjust:100%; text-size-adjust:100%}
   body{
     margin:0; background:var(--bg); color:var(--fg);
-    font-family:var(--mono); font-size:15px; line-height:1.65;
+    font-family:var(--mono); font-size:16px; line-height:1.7;
     -webkit-font-smoothing:antialiased;
     display:flex; flex-direction:column; min-height:100vh; min-height:100dvh;
   }
-  main{width:100%; max-width:620px; margin:0 auto; padding:clamp(40px,9vh,96px) 22px 0; flex:1 0 auto}
+  main{width:100%; max-width:680px; margin:0 auto; padding:clamp(32px,7vh,72px) clamp(18px,4vw,28px) 0; flex:1 0 auto; container-type:inline-size}
 
-  /* ASCII-Wortmarke: 84 Spalten breit, Schriftgroesse skaliert mit dem Viewport,
-     damit die Zeilen nie umbrechen. line-height 1 haelt die Zeichenzellen quadratisch. */
+  /* ASCII-Wortmarke skaliert mit der Inhaltsbreite; vw als Fallback. */
   .wordmark{
     margin:0 0 clamp(26px,5vh,42px);
-    font-family:inherit; font-size:clamp(4px,1.4vw,11px); line-height:1;
-    color:var(--acc-dim); white-space:pre; overflow:hidden;
+    font-family:inherit; font-size:clamp(4px,1.65vw,12px); font-size:min(1.94cqi,12px); line-height:1.1;
+    color:var(--acc); white-space:pre; overflow:hidden;
     user-select:none; -webkit-user-select:none;
   }
 
@@ -61,11 +60,11 @@
     letter-spacing:-.015em; line-height:1.2;
   }
   .tagline{
-    margin:10px 0 0; color:var(--dim); font-size:13.5px; letter-spacing:.01em;
+    margin:10px 0 0; color:var(--dim); font-size:14px; letter-spacing:.01em;
   }
   .tagline span{color:var(--line); padding:0 2px}
 
-  .about{margin:clamp(26px,5vh,38px) 0 0; max-width:56ch}
+  .about{margin:clamp(26px,5vh,38px) 0 0; max-width:58ch}
   .about p{margin:0 0 .9em}
   .about p:last-child{margin-bottom:0}
   .about em{color:var(--dim); font-style:normal}
@@ -75,50 +74,77 @@
     border-top:1px solid var(--line);
   }
   .row{
-    display:grid; grid-template-columns:9.5rem 1fr; gap:4px 14px;
-    padding:13px 0; border-bottom:1px solid var(--line); align-items:baseline;
+    display:grid; grid-template-columns:7rem minmax(0,1fr); gap:4px 14px;
+    padding:16px 0; border-bottom:1px solid var(--line); align-items:baseline;
   }
   .row dt{
-    color:var(--dim); font-size:12.5px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--dim); font-size:13px; letter-spacing:.1em; text-transform:uppercase;
   }
   .row dd{margin:0; overflow-wrap:anywhere}
   .row dd a{
-    color:var(--fg); text-decoration:none;
-    border-bottom:1px solid var(--acc-dim); padding-bottom:1px;
+    color:var(--fg);
+    text-decoration:underline; text-decoration-color:var(--acc-dim); text-underline-offset:5px;
+    display:inline-block; min-height:32px; padding:2px 0;
   }
-  .row dd a:hover,.row dd a:focus-visible{color:var(--acc); border-bottom-color:var(--acc)}
-  .row dd .note{display:block; color:var(--dim); font-size:12.5px; margin-top:2px}
+  .row dd a:hover,.row dd a:focus-visible{color:var(--acc); text-decoration-color:var(--acc)}
+  .row dd .note{display:block; color:var(--dim); font-size:13px; margin-top:2px}
 
-  /* Fingerprint: zwei Zeilen zu je fuenf Gruppen, wie in der gpg-Ausgabe */
+  /* Fingerprint-Gruppen bleiben zusammen und umbrechen auch bei Vergroesserung. */
   .fp{
     display:block; margin-top:8px; padding:8px 10px;
     background:var(--panel); border-radius:3px;
-    font-family:inherit; font-size:12.5px; letter-spacing:.02em; line-height:1.55;
-    color:var(--fg); overflow-wrap:normal; word-spacing:.15em;
+    font-family:inherit; font-size:13px; letter-spacing:.02em; line-height:1.55;
+    color:var(--fg); overflow-wrap:anywhere; word-spacing:.15em;
   }
-  .fp span{display:block; white-space:nowrap}
+  .fp span{display:inline-block; white-space:nowrap}
 
   @media (max-width:520px){
     .row{grid-template-columns:1fr; gap:2px}
   }
 
   footer{
-    width:100%; max-width:620px; margin:0 auto;
-    padding:clamp(40px,8vh,72px) 22px 30px;
-    color:var(--dim); font-size:12.5px;
-    display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    width:100%; max-width:680px; margin:0 auto;
+    padding:clamp(32px,6vh,56px) clamp(18px,4vw,28px) 28px;
+    color:var(--dim); font-size:13px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
   }
-  footer button{
-    font:inherit; color:var(--dim); background:none; border:0; padding:0;
+  button{
+    font:inherit; color:var(--dim); background:var(--panel); border:1px solid var(--line); border-radius:4px; padding:8px 12px; min-height:44px;
     cursor:pointer; letter-spacing:.06em;
   }
-  footer button:hover,footer button:focus-visible{color:var(--acc)}
+  button:hover,button:focus-visible{color:var(--acc)}
   a:focus-visible,button:focus-visible{outline:2px solid var(--acc); outline-offset:3px; border-radius:2px}
+  [hidden]{display:none!important}
+  button{font-size:13px}
+  button:disabled{cursor:wait}
+  .skip-link{position:absolute; top:12px; left:18px; z-index:1; padding:10px 14px;
+    transform:translateY(-180%); background:var(--bg); color:var(--fg)}
+  .skip-link:focus{transform:none}
+  .fingerprint-label{display:block; margin-top:12px; font-size:13px; color:var(--dim)}
+  .key-tools{display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-top:10px}
+  .copy-status{font-size:13px; color:var(--dim)}
+  .privacy{max-width:34ch}
+  footer a{display:inline-flex; align-items:center; min-height:44px; color:inherit; text-underline-offset:4px}
+  @media (max-width:520px){
+    .row dd a{min-height:44px; padding-top:8px}
+  }
+  @media (forced-colors:active){
+    a,button{forced-color-adjust:auto}
+    .fp{border:1px solid CanvasText}
+  }
+  @media print{
+    body{--bg:#fff; --fg:#000; --dim:#333; --acc:#000; --acc-dim:#000; --panel:#fff; --line:#aaa}
+    main{padding-top:0}
+    .skip-link,.key-tools,footer button{display:none!important}
+    .row{break-inside:avoid}
+    footer{padding-top:24px}
+  }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#content">Skip to content</a>
 
-<main>
+<main id="content" tabindex="-1">
   <pre class="wordmark" role="img" aria-label="svldng.sh">                     ##        ###                                        ##
                      ##        ###                                        ##
   ######  ###   ###  ##   ########   #######     ########        ######   #######
@@ -157,28 +183,65 @@
     <div class="row">
       <dt>pgp</dt>
       <dd>
-        <a href="/key.asc" type="application/pgp-keys">key.asc</a>
+        <a href="key.asc" type="application/pgp-keys" download="svldng-public-key.asc">Download public key <span aria-hidden="true">↓</span></a>
         <span class="note">ed25519 · root@svldng.sh · created 2026-08-24</span>
-        <code class="fp" aria-label="Fingerprint"><span>721F 4006 FD44 4932 7DA5</span> <span>BDEA 8F18 6A2F D6DE 3AA0</span></code>
+        <span class="fingerprint-label" id="fingerprint-label">Key fingerprint</span>
+        <code class="fp" id="fingerprint" aria-labelledby="fingerprint-label"><span>721F</span> <span>4006</span> <span>FD44</span> <span>4932</span> <span>7DA5</span> <span>BDEA</span> <span>8F18</span> <span>6A2F</span> <span>D6DE</span> <span>3AA0</span></code>
+        <div class="key-tools" id="key-tools" hidden>
+          <button type="button" id="copy-fingerprint">Copy fingerprint</button>
+          <span class="copy-status" id="copy-status" role="status"></span>
+        </div>
       </dd>
     </div>
   </dl>
 </main>
 
 <footer>
-  <span>no cookies, no tracking, no javascript required</span>
-  <button type="button" id="t" aria-label="Toggle colour scheme" hidden>◐ theme</button>
+  <span class="privacy">no cookies, no tracking.<br>works without JavaScript.<br><a href=".well-known/security.txt">security contact</a></span>
+  <button type="button" id="theme" hidden>Theme: system</button>
 </footer>
 
 <script>
-  (function(){
-    var b=document.getElementById('t'), r=document.documentElement;
-    b.hidden=false;
-    b.addEventListener('click',function(){
-      var dark = r.getAttribute('data-theme')==='dark'
-        || (!r.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      r.setAttribute('data-theme', dark ? 'light' : 'dark');
+  (function () {
+    'use strict';
+    var root = document.documentElement;
+    var theme = document.getElementById('theme');
+    var modes = ['system', 'light', 'dark'];
+    var mode = 0;
+
+    function renderTheme() {
+      if (mode === 0) root.removeAttribute('data-theme');
+      else root.setAttribute('data-theme', modes[mode]);
+      theme.textContent = 'Theme: ' + modes[mode];
+      theme.setAttribute('aria-label', 'Colour theme: ' + modes[mode] +
+        '. Switch to ' + modes[(mode + 1) % modes.length] + ' theme');
+    }
+
+    renderTheme();
+    theme.addEventListener('click', function () {
+      mode = (mode + 1) % modes.length;
+      renderTheme();
     });
+    theme.hidden = false;
+
+    var copy = document.getElementById('copy-fingerprint');
+    var status = document.getElementById('copy-status');
+    if (window.isSecureContext && navigator.clipboard && navigator.clipboard.writeText) {
+      document.getElementById('key-tools').hidden = false;
+      copy.addEventListener('click', async function () {
+        copy.disabled = true;
+        status.textContent = '';
+        try {
+          var fingerprint = document.getElementById('fingerprint').textContent.replace(/\s+/g, '');
+          await navigator.clipboard.writeText(fingerprint);
+          status.textContent = 'Fingerprint copied.';
+        } catch (error) {
+          status.textContent = 'Copy unavailable. Select the fingerprint above to copy it manually.';
+        } finally {
+          copy.disabled = false;
+        }
+      });
+    }
   })();
 </script>
 
