@@ -3,12 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; object-src 'none'; style-src 'sha256-pXJRpwBCUVmnB+B7r0NMxyEmDycipLohmce0u22mZJM='; script-src 'sha256-k4xs9UmN4SG81y3l14YeDMq6VTBhyA/VAfpQF3V8qeg='; img-src data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-R7JoHqu+4lVEdTZBKn5YsD7Zx9TMyYkCWTHu8BEL7Yc='; script-src 'sha256-XFAtuqEtwCD9Y29sDt3o+SW7AdJs7x00K438YisP7Gs='; img-src data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <title>svldng.sh — Sven Löding</title>
 <meta name="description" content="Sven Löding — security operations, GRC, hands-on labs.">
-<link rel="canonical" href="https://svldng.sh/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://svldng.sh/">
 <meta property="og:title" content="svldng.sh — Sven Löding">
@@ -21,18 +20,18 @@
 <style>
   :root{
     --bg:#FBFBF9; --panel:#F2F3EF; --fg:#16191C; --dim:#5C6660;
-    --line:#D9DDD6; --acc:#287354; --acc-dim:#287354;
+    --line:#D9DDD6; --acc:#287354;
     --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
       --bg:#0D1117; --panel:#151B22; --fg:#DCE3E0; --dim:#9AA8A1;
-      --line:#242C33; --acc:#7FD1AA; --acc-dim:#7FD1AA;
+      --line:#242C33; --acc:#7FD1AA;
     }
   }
   :root[data-theme="dark"]{
     --bg:#0D1117; --panel:#151B22; --fg:#DCE3E0; --dim:#9AA8A1;
-    --line:#242C33; --acc:#7FD1AA; --acc-dim:#7FD1AA;
+    --line:#242C33; --acc:#7FD1AA;
     color-scheme:dark;
   }
   :root[data-theme="light"]{color-scheme:light}
@@ -62,7 +61,8 @@
   .tagline{
     margin:10px 0 0; color:var(--dim); font-size:14px; letter-spacing:.01em;
   }
-  .tagline span{color:var(--line); padding:0 2px}
+  .tagline [aria-hidden="true"]{color:var(--line); padding:0 2px}
+  .tagline .keep-together{white-space:nowrap}
 
   .about{margin:clamp(26px,5vh,38px) 0 0; max-width:58ch}
   .about p{margin:0 0 .9em}
@@ -83,20 +83,22 @@
   .row dd{margin:0; overflow-wrap:anywhere}
   .row dd a{
     color:var(--fg);
-    text-decoration:underline; text-decoration-color:var(--acc-dim); text-underline-offset:5px;
+    text-decoration:underline; text-decoration-color:var(--acc); text-underline-offset:5px;
     display:inline-block; min-height:32px; padding:2px 0;
   }
   .row dd a:hover,.row dd a:focus-visible{color:var(--acc); text-decoration-color:var(--acc)}
   .row dd .note{display:block; color:var(--dim); font-size:13px; margin-top:2px}
 
-  /* Fingerprint-Gruppen bleiben zusammen und umbrechen auch bei Vergroesserung. */
+  /* Zwei Haelften zu je fuenf Gruppen; bei starkem Zoom duerfen Gruppen umbrechen. */
   .fp{
     display:block; margin-top:8px; padding:8px 10px;
     background:var(--panel); border-radius:3px;
     font-family:inherit; font-size:13px; letter-spacing:.02em; line-height:1.55;
     color:var(--fg); overflow-wrap:anywhere; word-spacing:.15em;
   }
-  .fp span{display:inline-block; white-space:nowrap}
+  .fp-half{display:block}
+  .fp-group{display:inline-block; white-space:nowrap}
+  .key-date{white-space:nowrap}
 
   @media (max-width:520px){
     .row{grid-template-columns:1fr; gap:2px}
@@ -113,13 +115,11 @@
     cursor:pointer; letter-spacing:.06em;
   }
   button:hover,button:focus-visible{color:var(--acc)}
-  a:focus-visible,button:focus-visible{outline:2px solid var(--acc); outline-offset:3px; border-radius:2px}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--acc); outline-offset:3px}
+  a:focus-visible{border-radius:2px}
   [hidden]{display:none!important}
   button{font-size:13px}
   button:disabled{cursor:wait}
-  .skip-link{position:absolute; top:12px; left:18px; z-index:1; padding:10px 14px;
-    transform:translateY(-180%); background:var(--bg); color:var(--fg)}
-  .skip-link:focus{transform:none}
   .fingerprint-label{display:block; margin-top:12px; font-size:13px; color:var(--dim)}
   .key-tools{display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-top:10px}
   .copy-status{font-size:13px; color:var(--dim)}
@@ -133,18 +133,16 @@
     .fp{border:1px solid CanvasText}
   }
   @media print{
-    body{--bg:#fff; --fg:#000; --dim:#333; --acc:#000; --acc-dim:#000; --panel:#fff; --line:#aaa}
+    body{--bg:#fff; --fg:#000; --dim:#333; --acc:#000; --panel:#fff; --line:#aaa}
     main{padding-top:0}
-    .skip-link,.key-tools,footer button{display:none!important}
+    .key-tools,footer button{display:none!important}
     .row{break-inside:avoid}
     footer{padding-top:24px}
   }
 </style>
 </head>
 <body>
-<a class="skip-link" href="#content">Skip to content</a>
-
-<main id="content" tabindex="-1">
+<main>
   <pre class="wordmark" role="img" aria-label="svldng.sh">                     ##        ###                                        ##
                      ##        ###                                        ##
   ######  ###   ###  ##   ########   #######     ########        ######   #######
@@ -157,7 +155,7 @@
                                                  ######</pre>
 
   <h1>Sven Löding</h1>
-  <p class="tagline">security operations <span aria-hidden="true">·</span> GRC <span aria-hidden="true">·</span> hands-on labs</p>
+  <p class="tagline">security operations <span aria-hidden="true">·</span> GRC <span aria-hidden="true">·</span> <span class="keep-together">hands-on labs</span></p>
 
   <div class="about">
     <p>I came to security from outside the field, which turns out to be a reasonable way to arrive — nothing is obvious yet, so nothing gets skipped.</p>
@@ -184,9 +182,12 @@
       <dt>pgp</dt>
       <dd>
         <a href="key.asc" type="application/pgp-keys" download="svldng-public-key.asc">Download public key <span aria-hidden="true">↓</span></a>
-        <span class="note">ed25519 · root@svldng.sh · created 2026-08-24</span>
-        <span class="fingerprint-label" id="fingerprint-label">Key fingerprint</span>
-        <code class="fp" id="fingerprint" aria-labelledby="fingerprint-label"><span>721F</span> <span>4006</span> <span>FD44</span> <span>4932</span> <span>7DA5</span> <span>BDEA</span> <span>8F18</span> <span>6A2F</span> <span>D6DE</span> <span>3AA0</span></code>
+        <span class="note">ed25519 · root@svldng.sh · created <time class="key-date" datetime="2026-08-24">2026-08-24</time></span>
+        <span class="fingerprint-label">Key fingerprint</span>
+        <code class="fp" id="fingerprint">
+          <span class="fp-half"><span class="fp-group">721F</span> <span class="fp-group">4006</span> <span class="fp-group">FD44</span> <span class="fp-group">4932</span> <span class="fp-group">7DA5</span></span>
+          <span class="fp-half"><span class="fp-group">BDEA</span> <span class="fp-group">8F18</span> <span class="fp-group">6A2F</span> <span class="fp-group">D6DE</span> <span class="fp-group">3AA0</span></span>
+        </code>
         <div class="key-tools" id="key-tools" hidden>
           <button type="button" id="copy-fingerprint">Copy fingerprint</button>
           <span class="copy-status" id="copy-status" role="status"></span>
@@ -213,8 +214,6 @@
       if (mode === 0) root.removeAttribute('data-theme');
       else root.setAttribute('data-theme', modes[mode]);
       theme.textContent = 'Theme: ' + modes[mode];
-      theme.setAttribute('aria-label', 'Colour theme: ' + modes[mode] +
-        '. Switch to ' + modes[(mode + 1) % modes.length] + ' theme');
     }
 
     renderTheme();
