@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-R7JoHqu+4lVEdTZBKn5YsD7Zx9TMyYkCWTHu8BEL7Yc='; script-src 'sha256-LpTcBlCv2tvQ58wimx3dR25MF/UXaXkK5qDdvUP4Ew0='; img-src data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-ztsJv+3DCIzsl8/1zN14mPHiRWowt/O3s7M9IywQCE8='; script-src 'sha256-LpTcBlCv2tvQ58wimx3dR25MF/UXaXkK5qDdvUP4Ew0='; img-src 'self' data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <title>svldng.sh — Sven Löding</title>
@@ -88,6 +88,16 @@
   .row dd a:hover,.row dd a:focus-visible{color:var(--acc); text-decoration-color:var(--acc)}
   .row dd .note{display:block; color:var(--dim); font-size:13px; margin-top:2px}
 
+  /* Badge links to the Coursera certificate, title to the Credly badge. */
+  .row-certs{align-items:start}
+  .row-certs dt{padding-top:6px}
+  .certs{list-style:none; margin:0; padding:0; display:grid; gap:16px}
+  .cert{display:grid; grid-template-columns:64px minmax(0,1fr); gap:16px; align-items:center}
+  .row dd a.badge{display:block; min-height:0; padding:0; border-radius:50%}
+  .badge img{display:block; width:64px; height:64px; transition:transform .15s ease}
+  .badge:hover img,.badge:focus-visible img{transform:scale(1.06)}
+  @media (prefers-reduced-motion:reduce){.badge img{transition:none}}
+
   /* Zwei Haelften zu je fuenf Gruppen; bei starkem Zoom duerfen Gruppen umbrechen. */
   .fp{
     display:block; margin-top:8px; padding:8px 10px;
@@ -170,11 +180,25 @@
         <span class="note">rank, streak and badges are kept current there</span>
       </dd>
     </div>
-    <div class="row">
+    <div class="row row-certs">
       <dt>certs</dt>
       <dd>
-        <a href="https://www.credly.com/badges/6b1f7764-8fd4-413f-8fda-4012a8e39965/public_url" rel="noopener">Google Cybersecurity Professional Certificate</a>
-        <span class="note">v.2 · issued by Coursera · <time datetime="2026-10-20">2026-10-20</time> · verifiable on Credly</span>
+        <ul class="certs">
+          <li class="cert">
+            <a class="badge" href="https://coursera.org/verify/professional-cert/YW6L2J85OPI6" rel="noopener" title="View certificate on Coursera"><img src="badges/google-cybersecurity.png" width="64" height="64" alt="Google Cybersecurity Certificate badge — view certificate on Coursera"></a>
+            <div>
+              <a href="https://www.credly.com/badges/6b1f7764-8fd4-413f-8fda-4012a8e39965/public_url" rel="noopener">Google Cybersecurity Professional Certificate</a>
+              <span class="note">v.2 · issued by Coursera · verifiable on Credly</span>
+            </div>
+          </li>
+          <li class="cert">
+            <a class="badge" href="https://coursera.org/verify/professional-cert/FCBOH37S1PVO" rel="noopener" title="View certificate on Coursera"><img src="badges/google-it-support.png" width="64" height="64" alt="Google IT Support Certificate badge — view certificate on Coursera"></a>
+            <div>
+              <a href="https://www.credly.com/badges/b863ba11-5921-457d-a2a9-aa305f72c5dd/public_url" rel="noopener">Google IT Support Professional Certificate</a>
+              <span class="note">v.3 · issued by Coursera · verifiable on Credly</span>
+            </div>
+          </li>
+        </ul>
       </dd>
     </div>
     <div class="row">
